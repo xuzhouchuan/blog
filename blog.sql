@@ -1,0 +1,62 @@
+-- create database
+DROP DATABASE IF EXISTS blog;
+CREATE DATABASE blog;
+
+USE blog;
+
+-- create user table
+DROP TABLE IF EXISTS annotation;
+DROP TABLE IF EXISTS article;
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(256) NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    email VARCHAR(256) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- create article table
+DROP TABlE IF EXISTS annotation;
+DROP TABLE IF EXISTS article_tag;
+DROP TABLE IF EXISTS article;
+CREATE TABLE article (
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(1024) NOT NULL,
+    content LONGTEXT NOT NULL,
+    time DATETIME NOT NULL COMMENT '2015-10-31 12:02:02',
+    user_id MEDIUMINT NOT NULL,
+    CONSTRAINT FK_article_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- create annotation table
+DROP TABLE IF EXISTS annotation;
+CREATE TABLE annotation (
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    content TEXT NOT NULL,
+    article_id MEDIUMINT NOT NULL,
+    user_id MEDIUMINT NOT NULL,
+    CONSTRAINT FK_annotation_article FOREIGN KEY (article_id) REFERENCES article(id) ON DELETE CASCADE,
+    CONSTRAINT FK_annotation_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    PRIMARY KEY (id)
+) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- create tag table (article's tage, for example: mysql, python, big-data ...)
+DROP TABLE IF EXISTS article_tag;
+DROP TABLE IF EXISTS tag;
+CREATE TABLE tag (
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    content VARCHAR(256) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- create table article_tag (N-to-N relationship between article and tag)
+DROP TABLE IF EXISTS article_tag;
+CREATE TABLE article_tag (
+    article_id MEDIUMINT NOT NULL,
+    tag_id MEDIUMINT NOT NULL,
+    CONSTRAINT FK_article_tag_article FOREIGN KEY (article_id) REFERENCES article(id) ON DELETE CASCADE,
+    CONSTRAINT FK_article_tag_tag FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE,
+    PRIMARY KEY (article_id, tag_id)
+) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
