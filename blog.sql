@@ -16,6 +16,13 @@ CREATE TABLE user (
     PRIMARY KEY (id)
 ) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
+-- create table catolog 
+DROP TABLE IF EXISTS catagory;
+CREATE TABLE catagory (
+    catagory_id SMALLINT NOT NULL,
+    content VARCHAR(1024) NOT NULL
+) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 -- create article table
 DROP TABlE IF EXISTS annotation;
 DROP TABLE IF EXISTS article_tag;
@@ -27,6 +34,7 @@ CREATE TABLE article (
     time DATETIME NOT NULL COMMENT '2015-10-31 12:02:02',
     user_id MEDIUMINT NOT NULL,
     CONSTRAINT FK_article_user FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    CONSTRAINT FK_article_catagory FOREIGN KEY (catagory_id) REFERENCES catagory(id) ON DELETE CASCADE,
     PRIMARY KEY (id)
 ) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
@@ -60,3 +68,5 @@ CREATE TABLE article_tag (
     CONSTRAINT FK_article_tag_tag FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE,
     PRIMARY KEY (article_id, tag_id)
 ) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
