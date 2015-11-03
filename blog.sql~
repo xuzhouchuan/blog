@@ -20,9 +20,8 @@ CREATE TABLE user (
 DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS catagory;
 CREATE TABLE catagory (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    content VARCHAR(1024) NOT NULL,
-    PRIMARY KEY (id)
+    id SMALLINT NOT NULL,
+    content VARCHAR(1024) NOT NULL
 ) ENGINE=innodb  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- create article table
